@@ -1,10 +1,13 @@
 ﻿using CleanArchiteture.Application.UseCases.CreateUser;
+using CleanArchiteture.Application.UseCases.DeleteUser;
+using CleanArchiteture.Application.UseCases.GetAllUser;
+using CleanArchiteture.Application.UseCases.UpdateUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArquiteture.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -15,19 +18,42 @@ namespace CleanArquiteture.WebAPI.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<CreateUserResponse>> Create(CreateUserRequest request,
-            CancellationToken cancellationToken)
+        [HttpPost("Create")]
+        public async Task<ActionResult<CreateUserResponse>> Create(CreateUserRequest request)
         {
+            var userId = await _mediator.Send(request);
+            return Ok(userId);
+        }
 
-            var validator = new CreateUserValidator();
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<List<GetAllUserResponse>>> GetAll(CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new GetAllUserResponse(), cancellationToken);
+            return Ok(response);
+        }
 
-            var validationResult = await validator.ValidateAsync(request);
-
-            if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors);
+        [HttpPut("Update")]
+        public async Task<ActionResult<UpdateUserResponse>> Update(Guid Id,
+                                                                UpdateUserRequest request, 
+                                                                CancellationToken cancellationToken)
+        {
+            if (Id != request.Id)
+                return BadRequest();
 
             var response = await _mediator.Send(request, cancellationToken);
+            return Ok(response);
+        }
+
+        [HttpDelete("Delete")]
+        public async Task<ActionResult<DeleteUserResponse>> Delete(Guid? Id,
+                                                                CancellationToken cancellationToken)
+        {
+            if(Id is null)
+                return BadRequest();
+
+            var deleteUserRequest = new DeleteUserRequest(Id.Value);
+
+            var response = await _mediator.Send(deleteUserRequest, cancellationToken);
             return Ok(response);
         }
 

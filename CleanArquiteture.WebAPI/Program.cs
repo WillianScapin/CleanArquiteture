@@ -1,6 +1,7 @@
 using CleanArchiteture.Persistence.Context;
 using CleanArchiteture.Persistence;
 using CleanArchiteture.Application.Services;
+using CleanArquiteture.WebAPI.Extensions;
 
 namespace CleanArquiteture.WebAPI
 {
@@ -13,6 +14,7 @@ namespace CleanArquiteture.WebAPI
 
             builder.Services.ConfigurePersistenceApp(builder.Configuration);
             builder.Services.ConfigureApplicationApp();
+            builder.Services.ConfigureCorsPolicy();
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -24,20 +26,14 @@ namespace CleanArquiteture.WebAPI
 
             CreateDatabase(app);
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
 
-
+            app.UseCors();
             app.MapControllers();
-
             app.Run();
         }
 
