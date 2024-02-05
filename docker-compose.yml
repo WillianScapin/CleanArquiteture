@@ -4,7 +4,7 @@ services:
       image: postgres:latest
       environment:
         POSTGRES_USER: dbuser
-        POSTGRES_PASSWORD: -mda8960
+        POSTGRES_PASSWORD: cleanArchitecture
         POSTGRES_DB: clean_architeture_database
       ports:
         - "5432:5432"
