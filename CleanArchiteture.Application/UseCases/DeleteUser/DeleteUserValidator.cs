@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CleanArchiteture.Application.UseCases.DeleteUser
 {
-    internal class DeleteUserValidator : AbstractValidator<DeleteUserRequest>
+    public class DeleteUserValidator : AbstractValidator<DeleteUserRequest>
     {
         public DeleteUserValidator()
         {

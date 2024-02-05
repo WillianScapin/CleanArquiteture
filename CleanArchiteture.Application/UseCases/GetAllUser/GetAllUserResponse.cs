@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CleanArchiteture.Application.UseCases.GetAllUser
+﻿namespace CleanArchiteture.Application.UseCases.GetAllUser
 {
-    public sealed class GetAllUserResponse
+    public sealed record GetAllUserResponse
     {
         public Guid Id { get; set; }
         public string? Email { get; set; }

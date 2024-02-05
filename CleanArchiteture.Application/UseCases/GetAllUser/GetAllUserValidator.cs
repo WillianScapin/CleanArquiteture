@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CleanArchiteture.Application.UseCases.GetAllUser
 {
-    internal class GetAllUserValidator
+    public class GetAllUserValidator
     {
         //Vou apenas retornar dados
     }

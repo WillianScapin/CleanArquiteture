@@ -28,13 +28,13 @@ namespace CleanArquiteture.WebAPI.Controllers
         [HttpGet("GetAll")]
         public async Task<ActionResult<List<GetAllUserResponse>>> GetAll(CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetAllUserResponse(), cancellationToken);
+            var response = await _mediator.Send(new GetAllUserRequest(), cancellationToken);
             return Ok(response);
         }
 
         [HttpPut("Update")]
         public async Task<ActionResult<UpdateUserResponse>> Update(Guid Id,
-                                                                UpdateUserRequest request, 
+                                                                UpdateUserRequest request,
                                                                 CancellationToken cancellationToken)
         {
             if (Id != request.Id)
@@ -48,7 +48,7 @@ namespace CleanArquiteture.WebAPI.Controllers
         public async Task<ActionResult<DeleteUserResponse>> Delete(Guid? Id,
                                                                 CancellationToken cancellationToken)
         {
-            if(Id is null)
+            if (Id is null)
                 return BadRequest();
 
             var deleteUserRequest = new DeleteUserRequest(Id.Value);

@@ -1,15 +1,10 @@
 ﻿using AutoMapper;
 using CleanArchiteture.Domain.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CleanArchiteture.Application.UseCases.GetAllUser
 {
-    internal class GetAllUserHandler : IRequestHandler<GetAllUserRequest, List<GetAllUserResponse>>
+    public sealed class GetAllUserHandler : IRequestHandler<GetAllUserRequest, List<GetAllUserResponse>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;

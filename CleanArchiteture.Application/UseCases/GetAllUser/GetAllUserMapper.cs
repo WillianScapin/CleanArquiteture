@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CleanArchiteture.Application.UseCases.GetAllUser
 {
-    internal class GetAllUserMapper : Profile
+    public sealed class GetAllUserMapper : Profile
     {
         public GetAllUserMapper() 
         {

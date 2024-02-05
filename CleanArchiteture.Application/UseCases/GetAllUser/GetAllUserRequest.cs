@@ -1,13 +1,9 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace CleanArchiteture.Application.UseCases.GetAllUser
 {
-    public class GetAllUserRequest : 
+    public sealed record GetAllUserRequest : 
                              IRequest<List<GetAllUserResponse>>
     {
     }

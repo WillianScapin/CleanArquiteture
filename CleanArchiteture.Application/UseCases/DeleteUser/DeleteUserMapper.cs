@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace CleanArchiteture.Application.UseCases.DeleteUser
 {
-    internal class DeleteUserMapper : Profile
+    public sealed class DeleteUserMapper : Profile
     {
-        protected DeleteUserMapper()
+        public DeleteUserMapper()
         {
             CreateMap<DeleteUserRequest, User>();
             CreateMap<User, DeleteUserResponse>();
