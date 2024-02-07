@@ -11,6 +11,13 @@ namespace CleanArquiteture.WebAPI
 {
     public class Program
     {
+        public static string _jwtSecret;
+
+        public Program(IConfiguration configuration)
+        {
+            _jwtSecret = configuration.GetSection("JwtSecret").Value;
+        }
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -125,7 +132,7 @@ namespace CleanArquiteture.WebAPI
                 o.TokenValidationParameters = new TokenValidationParameters
                 {
                     //Defino minha cháve de criptografia
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("rbs38-8343fhye-64193-ndr27utrangplecy")),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSecret)),
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateLifetime = false,

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -9,13 +10,20 @@ namespace CleanArquiteture.WebAPI.AuthenticationServices
 {
     public class JwtAuthenticationService : IJwtAuthenticationService
     {
+        public readonly string _jwtSecret;
+
+        public JwtAuthenticationService(IConfiguration configuration)
+        {
+            _jwtSecret = configuration.GetSection("JwtSecret").Value;
+        }
+
         //Modelo para gerar um token jwt
         public string GenerateToken(Guid UserId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
             //Crio minha chave para criptografar meu token
-            var key = Encoding.ASCII.GetBytes("rbs38-8343fhye-64193-ndr27utrangplecy");
+            var key = Encoding.ASCII.GetBytes(_jwtSecret);
             //crio um objeto para passar minhas configurações para o token
             var tokenDescriptor = new SecurityTokenDescriptor
             {
