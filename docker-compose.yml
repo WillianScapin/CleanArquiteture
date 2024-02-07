@@ -1,10 +1,10 @@
 version: '1.0'
 services:
-  api:
+  clean_architeture-api:
     build:
       context: .
       dockerfile: CleanArquiteture.WebAPI\Dockerfile
-    image: netflix-api
+    image: clean_architeture-api
     ports:
       - "5000:80"
     environment:

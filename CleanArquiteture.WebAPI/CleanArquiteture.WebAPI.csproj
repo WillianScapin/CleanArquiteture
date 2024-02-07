@@ -7,6 +7,8 @@
     <InvariantGlobalization>true</InvariantGlobalization>
     <UserSecretsId>49e3d79d-4380-4793-8b59-5f4eb7f3c158</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>D:\Projetos\Testes\C#\CleanArquiteture\CleanArquiteture.WebAPI\CleanArchiteture.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using CleanArchiteture.Application.Shared.Behavior;
+using CleanArquiteture.WebAPI.AuthenticationServices;
 
 namespace CleanArchiteture.Application.Services
 {
@@ -18,6 +19,9 @@ namespace CleanArchiteture.Application.Services
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+            services.AddScoped<IJwtAuthenticationService, JwtAuthenticationService>();
+
         }
     }
 }
