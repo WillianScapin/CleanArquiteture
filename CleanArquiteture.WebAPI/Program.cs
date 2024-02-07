@@ -11,12 +11,7 @@ namespace CleanArquiteture.WebAPI
 {
     public class Program
     {
-        public static string _jwtSecret;
-
-        public Program(IConfiguration configuration)
-        {
-            _jwtSecret = configuration.GetSection("JwtSecret").Value;
-        }
+        public static string _jwtSecret = "rbs38-8343fhye-64193-ndr27utrangplecy";
 
         public static void Main(string[] args)
         {
