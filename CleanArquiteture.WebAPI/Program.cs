@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 
 namespace CleanArquiteture.WebAPI
 {
@@ -49,6 +50,9 @@ namespace CleanArquiteture.WebAPI
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<CleanArchiteture.Domain.Middlewares.CustonException>();
+
+
 
             app.UseCors();
             app.MapControllers();
