@@ -1,10 +1,22 @@
 version: '1.0'
 services:
+  api:
+    build:
+      context: .
+      dockerfile: CleanArquiteture.WebAPI\Dockerfile
+    image: netflix-api
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+    depends_on:
+      - postgres
+
   postgres:
       image: postgres:latest
       environment:
         POSTGRES_USER: dbuser
-        POSTGRES_PASSWORD: cleanArchitecture
+        POSTGRES_PASSWORD: cleanArchiteture
         POSTGRES_DB: clean_architeture_database
       ports:
         - "5432:5432"
