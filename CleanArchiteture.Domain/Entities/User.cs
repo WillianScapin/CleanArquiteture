@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using CleanArchiteture.Domain.Exceptions;
+using CleanArchiteture.Domain.Middlewares;
+using System.Text.RegularExpressions;
 
 namespace CleanArchiteture.Domain.Entities
 {
@@ -21,18 +23,18 @@ namespace CleanArchiteture.Domain.Entities
         {
             //Validação de nome
             if (this.Name.Length < 3)
-                throw new Exception("O nome não pode ter nemos do que 3 caracteres");
+                throw new NameException("O nome não pode ter nemos do que 3 caracteres");
 
             if (this.Name.Length > 50)
-                throw new Exception("O nome não pode ter mais do que 50 caracteres");
+                throw new NameException("O nome não pode ter mais do que 50 caracteres");
 
 
             //Validação de Email
             if(!ValidateEmail(this.Email))
-                throw new Exception("Formato de email inválido");
+                throw new InvalidEmailException("Formato de email inválido");
 
             if(this.Email.Length > 50)
-                throw new Exception("O email não pode ter mais do que 50 caracteres");
+                throw new InvalidEmailException("O email não pode ter mais do que 50 caracteres");
 
             return true;
         }

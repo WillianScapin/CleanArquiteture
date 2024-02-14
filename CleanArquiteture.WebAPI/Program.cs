@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
+using CleanArchiteture.Domain.Exceptions;
 
 namespace CleanArquiteture.WebAPI
 {
@@ -37,6 +39,12 @@ namespace CleanArquiteture.WebAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
 
+            builder.Services.AddMvc(options => 
+            {
+                options.Filters.Add(new ApiExceptionFilter());
+            });
+
+
             ConfigSwagger(builder);
 
             ConfigureJWT(builder);
@@ -50,7 +58,7 @@ namespace CleanArquiteture.WebAPI
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseMiddleware<CleanArchiteture.Domain.Middlewares.CustonException>();
+            //app.UseMiddleware<CleanArchiteture.Domain.Middlewares.CustonException>();
 
 
 
@@ -88,7 +96,6 @@ namespace CleanArquiteture.WebAPI
             builder.Services.AddSwaggerGen(c =>
             {
                 c.IncludeXmlComments(Path.GetFullPath("CleanArchiteture.xml"));
-                //
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "CleanArchitetureAPI",
