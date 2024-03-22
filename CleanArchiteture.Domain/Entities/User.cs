@@ -15,15 +15,15 @@ namespace CleanArchiteture.Domain.Entities
         }
 
         //Normalmente se cria o provate set e a validação é feita no Domain (Core)
-        public string? Email { get; set; }
-        public string? Name { get; set; }
+        public string Email { get; set; }
+        public string Name { get; set; }
 
 
         bool Validate()
         {
             //Validação de nome
             if (this.Name.Length < 3)
-                throw new NameException("O nome não pode ter nemos do que 3 caracteres");
+                throw new NameException("O nome não pode ter menos do que 3 caracteres");
 
             if (this.Name.Length > 50)
                 throw new NameException("O nome não pode ter mais do que 50 caracteres");
