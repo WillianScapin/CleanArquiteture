@@ -1,5 +1,5 @@
 ﻿using CleanArchiteture.Domain.Exceptions;
-using CleanArchiteture.Domain.Middlewares;
+using CleanArchiteture.Domain.Validators;
 using System.Text.RegularExpressions;
 
 namespace CleanArchiteture.Domain.Entities
@@ -21,31 +21,16 @@ namespace CleanArchiteture.Domain.Entities
 
         bool Validate()
         {
-            //Validação de nome
-            if (this.Name.Length < 3)
-                throw new NameException("O nome não pode ter menos do que 3 caracteres");
+            var validator = new UserValidator();
+            var result = validator.Validate(this);
 
-            if (this.Name.Length > 50)
-                throw new NameException("O nome não pode ter mais do que 50 caracteres");
-
-
-            //Validação de Email
-            if(!ValidateEmail(this.Email))
-                throw new InvalidEmailException("Formato de email inválido");
-
-            if(this.Email.Length > 50)
-                throw new InvalidEmailException("O email não pode ter mais do que 50 caracteres");
-
-            return true;
-        }
-
-
-        bool ValidateEmail(string email)
-        {
-            string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
-
-            // Verifica se o email corresponde ao padrão da expressão regular
-            return Regex.IsMatch(email, pattern);
+            if (result.IsValid)
+                return true;
+            else
+            {
+                var errors = string.Join(Environment.NewLine, result.Errors);
+                throw new EntityException(errors);
+            }
         }
 
     }

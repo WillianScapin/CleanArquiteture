@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace CleanArchiteture.Domain.Exceptions
 {
-    public class NameException : AppException
+    public class EntityException : AppException
     {
-        public NameException(string message) : base(message, "404")
+        public EntityException(string message) : base(message, "422")
         {
-            
         }
     }
 }

@@ -10,10 +10,12 @@ namespace CleanArchiteture.Domain.Exceptions
         {
             if (context.Exception is AppException appException)
             {
+                List<string> errorList = [.. appException.Message.Split(Environment.NewLine)];
+
                 var response = new
                 {
                     StatusCode = appException.ErrorCode,
-                    Message = appException.Message
+                    Message = errorList
                 };
 
                 context.Result = new ObjectResult(response)

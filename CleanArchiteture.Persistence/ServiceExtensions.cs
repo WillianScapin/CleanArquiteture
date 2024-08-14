@@ -1,15 +1,13 @@
-﻿using CleanArchiteture.Domain.Interfaces;
+﻿using CleanArchiteture.Domain.Entities;
+using CleanArchiteture.Domain.Interfaces;
+using CleanArchiteture.Domain.Validators;
 using CleanArchiteture.Persistence.Context;
 using CleanArchiteture.Persistence.Repositories;
+using CleanArquiteture.WebAPI.AuthenticationServices;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CleanArchiteture.Persistence
 {
@@ -21,10 +19,13 @@ namespace CleanArchiteture.Persistence
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(connectionString));
-            
             services.AddScoped<IUnitOfWork, UnitiOfWork>();
-
             services.AddScoped<IUserRepository, UserRepository>();
+            
+
+            services.AddScoped<IJwtAuthenticationService, JwtAuthenticationService>();
+
+            services.AddTransient<IValidator<User>, UserValidator>();
         }
     }
 }

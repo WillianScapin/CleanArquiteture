@@ -6,8 +6,6 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Filters;
 using CleanArchiteture.Domain.Exceptions;
 
 namespace CleanArquiteture.WebAPI
@@ -88,7 +86,7 @@ namespace CleanArquiteture.WebAPI
         {
             var serviceScope = app.Services.CreateScope();
             var dataContext = serviceScope.ServiceProvider.GetService<AppDbContext>();
-            dataContext?.Database.EnsureCreated();
+            //dataContext?.Database.EnsureCreated();
         }
 
         static void ConfigSwagger(WebApplicationBuilder builder)

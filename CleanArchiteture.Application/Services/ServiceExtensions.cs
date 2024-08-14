@@ -14,8 +14,6 @@ namespace CleanArchiteture.Application.Services
             services.AddMediatR(cfg =>
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-            services.AddScoped<IJwtAuthenticationService, JwtAuthenticationService>();
-
         }
     }
 }
