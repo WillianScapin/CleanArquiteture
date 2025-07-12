@@ -67,5 +67,17 @@ namespace CleanArquiteture.WebAPI.AuthenticationServices
             return id;
         }
 
+        public void SetTokenCookie(HttpContext context, string token)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = false,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTime.UtcNow.AddHours(1)
+            };
+
+            context.Response.Cookies.Append("JwtToken", token, cookieOptions);
+        }
     }
 }

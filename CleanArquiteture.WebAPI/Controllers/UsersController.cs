@@ -3,6 +3,7 @@ using CleanArchiteture.Application.UseCases.DeleteUser;
 using CleanArchiteture.Application.UseCases.GetAllUser;
 using CleanArchiteture.Application.UseCases.GetUser;
 using CleanArchiteture.Application.UseCases.UpdateUser;
+using CleanArchiteture.Domain.Entities;
 using CleanArquiteture.WebAPI.AuthenticationServices;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -16,6 +17,7 @@ namespace CleanArquiteture.WebAPI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IJwtAuthenticationService _jwtAuthenticationService;
+        
 
         public UsersController(IMediator mediator, IJwtAuthenticationService jwtAuthenticationService)
         {
@@ -28,8 +30,7 @@ namespace CleanArquiteture.WebAPI.Controllers
         {
             var user = await _mediator.Send(request);
             string jwt = _jwtAuthenticationService.GenerateToken(user.Id);
-
-            user.Token = jwt;
+            _jwtAuthenticationService.SetTokenCookie(HttpContext, jwt);
 
             return Ok(user);
         }
@@ -38,8 +39,11 @@ namespace CleanArquiteture.WebAPI.Controllers
         [HttpPost("Create")]
         public async Task<ActionResult<CreateUserResponse>> Create(CreateUserRequest request)
         {
-            var userId = await _mediator.Send(request);
-            return Ok(userId);
+            var user = await _mediator.Send(request);
+            string jwt = _jwtAuthenticationService.GenerateToken(user.Id);
+            _jwtAuthenticationService.SetTokenCookie(HttpContext, jwt);
+
+            return Ok(user);
         }
 
         [HttpGet("GetAll")]

@@ -8,10 +8,11 @@ namespace CleanArquiteture.WebAPI.Extensions
         {
             services.AddCors(opt =>
             {
-                opt.AddDefaultPolicy(builder => builder.
-                AllowAnyOrigin().
-                AllowAnyMethod().
-                AllowAnyHeader());
+                opt.AddDefaultPolicy(builder => builder
+                    .WithOrigins("https://localhost:3000")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
             });
         }
     }

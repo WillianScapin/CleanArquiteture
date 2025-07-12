@@ -9,7 +9,7 @@ namespace CleanArchiteture.Domain.Interfaces
 {
     public interface IBaseRepository<T> where T : BaseEntity
     {
-        void Create(T entity);
+        Task Create(T entity);
         void Update(T entity);
         void Delete(T entity);
         Task<T> Get(Guid id, CancellationToken cancellationToken);

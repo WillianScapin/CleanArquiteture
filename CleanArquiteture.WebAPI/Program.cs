@@ -1,4 +1,4 @@
-using CleanArchiteture.Persistence.Context;
+Ôªøusing CleanArchiteture.Persistence.Context;
 using CleanArchiteture.Persistence;
 using CleanArchiteture.Application.Services;
 using CleanArquiteture.WebAPI.Extensions;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using CleanArchiteture.Domain.Exceptions;
+using CleanArquiteture.WebAPI.Middleware;
 
 namespace CleanArquiteture.WebAPI
 {
@@ -54,16 +55,18 @@ namespace CleanArquiteture.WebAPI
             app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
-            app.UseAuthentication();
-            app.UseAuthorization();
-            //app.UseMiddleware<CleanArchiteture.Domain.Middlewares.CustonException>();
-
-
 
             app.UseCors();
+
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseJwtCookieMiddleware();
+
             app.MapControllers();
 
-            //======================= ConfiguraÁıes de Headers =======================//
+            //======================= ConfiguraÔøΩÔøΩes de Headers =======================//
             ConfigureHeaders(app);
         }
 
@@ -71,21 +74,35 @@ namespace CleanArquiteture.WebAPI
         {
             app.Use(async (context, next) =>
             {
-                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self';");
+                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'");
                 context.Response.Headers.Add("Permissions-Policy", "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()");
                 context.Response.Headers.Add("Referrer-Policy", "no-referrer");
                 context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                 context.Response.Headers.Add("X-Frame-Options", "DENY");
-                context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+                if (app.Environment.IsProduction())
+                {
+                    context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+                }
+                var allowedOrigins = new[] { "https://localhost:3000" };
+                var origin = context.Request.Headers["Origin"].ToString();
+
+                if (allowedOrigins.Contains(origin))
+                {
+                    context.Response.Headers.Add("Access-Control-Allow-Origin", origin);
+                }
+
+                context.Response.Headers.Add("Access-Control-Allow-Credentials", "true");
+
                 await next();
             });
         }
-
 
         static void CreateDatabase(WebApplication app)
         {
             var serviceScope = app.Services.CreateScope();
             var dataContext = serviceScope.ServiceProvider.GetService<AppDbContext>();
+
+            //Comentado pois n√£o estou disponibilizando um banco de dados!
             //dataContext?.Database.EnsureCreated();
         }
 
@@ -135,7 +152,7 @@ namespace CleanArquiteture.WebAPI
             {
                 o.TokenValidationParameters = new TokenValidationParameters
                 {
-                    //Defino minha ch·ve de criptografia
+                    //Defino minha ch√°ve de criptografia
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSecret)),
                     ValidateIssuer = false,
                     ValidateAudience = false,

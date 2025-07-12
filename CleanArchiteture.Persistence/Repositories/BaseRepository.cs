@@ -19,10 +19,10 @@ namespace CleanArchiteture.Persistence.Repositories
             _context = context;
         }
 
-        public void Create(T entity)
+        public async Task Create(T entity)
         {
             entity.DateCreated = DateTimeOffset.UtcNow;
-            _context.Add(entity);
+            await _context.AddAsync(entity);
         }
 
         public void Update(T entity)
@@ -46,6 +46,5 @@ namespace CleanArchiteture.Persistence.Repositories
         {
             return await _context.Set<T>().ToListAsync(cancellationToken);
         }
-
     }
 }
